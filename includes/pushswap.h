@@ -4,6 +4,7 @@
 #include "stack.h"
 typedef struct s_data
 {
+	int print_inst;
 	t_stack sta;	
 	t_stack stb;	
 	t_stack arrpos;

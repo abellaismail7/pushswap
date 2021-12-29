@@ -1,10 +1,7 @@
-#include "pushswap.h"
+#include "checker.h"
 #include "stack.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-void iquicksort(int *arr, int *iarr, int left);
-int *incarr(int size);
 
 t_stack stack_wrap(int *arr, int cap, int len)
 {
@@ -36,18 +33,33 @@ int is_sorted(t_stack st)
 
 void ft_pushswap(t_data *data)
 {
-	int i;
+	int n;
 	
-	i = 0;
+	if(has_dup(&data->sta))
+	{
+		ft_putstrfd(2, "Error\n");
+		return ;
+	}
 	while(1)
 	{
-		if (is_sorted(data->sta))
+		n = run_instra(data);
+		if (n == 0 
+			&& is_sorted(data->sta)
+			&& data->stb.len == 0)
 		{
-			pushback(data);
+			ft_putstrfd(1, "OK");
 			break;
 		}
-		nextinstra(data); 
-		i++;
+		else if (n == 0)
+		{
+			ft_putstrfd(2, "KO");
+			break;
+		}
+		else if (n == -1)
+		{
+			ft_putstrfd(2, "Error\n");
+			return ;
+		}
 	}
 	
 }
@@ -55,21 +67,17 @@ void ft_pushswap(t_data *data)
 int data_setup(int size, char **av)
 {
 	t_data data;
-	int *arr;
 
-	data.print_inst = 1;
-	arr = av2int(av, size);
-	data.sta = stack_wrap(av2int(av, size), size, size); // arr clone
+	data.print_inst = 0;
+	data.sta = stack_wrap(av2int(av, size), size, size); // check dup 
 	data.stb = stack_wrap(malloc(sizeof(int) * size), 0, size);
-	data.arrpos = stack_wrap(incarr(size),size, size);
 	if (data.sta.arr == 0 ||  data.stb.arr == 0)
 	{
+		ft_putstrfd(2, "Error\n");
 		free(data.sta.arr);
 		free(data.stb.arr);
 		return 1;
 	}
-	iquicksort(arr, data.arrpos.arr, size);
-	free(arr);
 	ft_pushswap(&data);
 	free(data.sta.arr);
 	free(data.stb.arr);

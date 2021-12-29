@@ -1,5 +1,6 @@
 #include "pushswap.h"
 #include "stack.h"
+#include "common.h"
 
 int bringtoTop(t_stack *st, int pos, char * str)
 {
@@ -35,20 +36,6 @@ int bringtoTop(t_stack *st, int pos, char * str)
 			instra_rr(st);
 		}
 	}
-	return 1;
-}
-
-int pushb(t_data *data)
-{
-	ft_putstrfd(1, "pb\n");
-	instra_p(&data->stb, &data->sta);
-	return 1;
-}
-
-int pusha(t_data *data)
-{
-	ft_putstrfd(1, "pa\n");
-	instra_p(&data->sta, &data->stb);
 	return 1;
 }
 

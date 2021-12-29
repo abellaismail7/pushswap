@@ -35,41 +35,52 @@ int pop(t_stack *st)
 	return st->arr[st->len];
 }
 
-void instra_s(t_stack *st)
+int instra_s(t_stack *st)
 {
 	if (st->len <= 1)
-		return ft_putstrfd(2, "Stack doesn't have enough elements to swap\n");
+	{
+		ft_putstrfd(2, "Stack doesn't have enough elements to swap\n");
+		return 0;
+	}
 	swap(st->arr, st->len -1 , st->len - 2);
+	return 1;
 }
 
-void instra_p(t_stack *st1, t_stack *st2)
+int instra_p(t_stack *st1, t_stack *st2)
 {
 	int n;
 
-	n = pop(st2);
 	if (st2->len == 0)
-		return ;
+		return 0;
+	n = pop(st2);
 	push(st1, n);	
+	return 1;
 
 }
 
-void instra_r(t_stack *st)
+int instra_r(t_stack *st)
 {
 	int len;
 
 	len = st->len;
+	if (len == 0)
+		return 0;
 	while(len-- > 1)
 	{
 		swap(st->arr, len, len - 1);
 	}
+	return 1;
 }
 
-void instra_rr(t_stack *st)
+int instra_rr(t_stack *st)
 {
     int i = 0;
+	if (st->len == 0)
+		return 0;
 	while(i < st->len -1)
 	{
 		swap(st->arr, i, i + 1);
 		i++;
 	}
+	return 1;
 }
