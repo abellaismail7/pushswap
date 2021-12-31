@@ -56,23 +56,51 @@ void find_min(t_stack st, int mpos[])
 {
 	int i;
 	mpos[0] = 0;
+	mpos[1] = 0;
 	i = 0;
 	while(i < st.len)
 	{
 		if (st.arr[i] < st.arr[mpos[0]])
 		{
+			mpos[1] = mpos[0];
 			mpos[0] = i;
 		}
+		else if (st.arr[i] < st.arr[mpos[1]])
+			mpos[1] = i;
 		i++;
 	}
 }
 
+int min(int a, int b)
+{
+	if (a > b)
+		return b;
+	return a;
+}
+
+#include <stdio.h>
+
 int nextinstra(t_data *data)
 {
 	int mpos[2];
-	
+	int dis[2];
+
 	find_min(data->sta, mpos);
-	bringtoTop(&data->sta, mpos[0], "a\n");
-	pushb(data);
+	dis[0] = min(mpos[0] + 1, data->sta.len - mpos[0]);
+	dis[1] = min(mpos[1] + 1, data->sta.len - mpos[1]);
+	if (dis[0] < dis[1] || mpos[1] == 0)
+	{
+		bringtoTop(&data->sta, mpos[0], "a\n");
+		pushb(data);
+	}
+	else
+	{
+		bringtoTop(&data->sta, mpos[1], "a\n");
+		pushb(data);
+		find_min(data->sta, mpos);
+		bringtoTop(&data->sta, mpos[0], "a\n");
+		pushb(data);
+		swapb(data);
+	}
 	return 1;
 }
